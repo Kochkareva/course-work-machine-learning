@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Индивидуальное предсказание
+{% endblock title %}
+
+{% block body %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ messages[0] }}</p>
+                <p>{{ messages[1] }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+
+<form method="post" enctype="multipart/form-data" style="min-width: 90vh">
+    <div class="col-md-4">
+        <label for="inputState_qualifications" class="form-label">Уровень образования, необходимый для работы: </label>
+        <select id="inputState_qualifications" name="qualification" class="form-select">
+            {% for qualification in unique_qualifications %}
+            <option value="{{ qualification }}">{{ qualification }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_locations" class="form-label">Город или область, где находится работа: </label>
+        <select id="inputState_unique_locations" name="locations" class="form-select">
+            {% for locations in unique_locations %}
+            <option value="{{ locations }}">{{ locations }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_countries" class="form-label">Страна, в которой находится работа: </label>
+        <select id="inputState_unique_countries" name="countries" class="form-select">
+            {% for countries in unique_countries %}
+            <option value="{{ countries }}">{{ countries }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_work_type" class="form-label">Тип занятости: </label>
+        <select id="inputState_unique_work_type" name="work_type" class="form-select">
+            {% for work_type in unique_work_type %}
+            <option value="{{ work_type }}">{{ work_type }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_preference" class="form-label">Preference: </label>
+        <select id="inputState_unique_preference" name="preference" class="form-select">
+            {% for preference in unique_preference %}
+            <option value="{{ preference }}">{{ preference }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_job_title" class="form-label">Job Title: </label>
+        <select id="inputState_unique_job_title" name="job_title" class="form-select">
+            {% for job_title in unique_job_title %}
+            <option value="{{ job_title }}">{{ job_title }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_role" class="form-label">Role: </label>
+        <select id="inputState_unique_role" name="role" class="form-select">
+            {% for role in unique_role %}
+            <option value="{{ role }}">{{ role }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_job_portal" class="form-label">Job Portal: </label>
+        <select id="inputState_unique_job_portal" name="job_portal" class="form-select">
+            {% for job_portal in unique_job_portal %}
+            <option value="{{ job_portal }}">{{ job_portal }}</option>
+            {% endfor %}
+        </select>
+
+
+        <label for="inputState_unique_skills" class="form-label">Skills: </label>
+        <select id="inputState_unique_skills" name="skill" class="form-select">
+            {% for skill in unique_skills %}
+            <option value="{{ skill }}">{{ skill }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_company" class="form-label">Company: </label>
+        <select id="inputState_unique_company" name="company" class="form-select">
+            {% for company in unique_company %}
+            <option value="{{ company }}">{{ company }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_sector" class="form-label">Sector: </label>
+        <select id="inputState_unique_sector" name="sector" class="form-select">
+            {% for sector in unique_sector %}
+            <option value="{{ sector }}">{{ sector }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_industry" class="form-label">Industry: </label>
+        <select id="inputState_unique_industry" name="industry" class="form-select">
+            {% for industry in unique_industry %}
+            <option value="{{ industry }}">{{ industry }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_city" class="form-label">City: </label>
+        <select id="inputState_unique_city" name="city" class="form-select">
+            {% for city in unique_city %}
+            <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_state" class="form-label">State: </label>
+        <select id="inputState_unique_state" name="state" class="form-select">
+            {% for state in unique_state %}
+            <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_unique_ticker" class="form-label">Ticker: </label>
+        <select id="inputState_unique_ticker" name="ticker" class="form-select">
+            {% for ticker in unique_ticker %}
+            <option value="{{ ticker }}">{{ ticker }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="inputState_list_benefits" class="form-label">Benefits: </label>
+        <select id="inputState_list_benefits" name="benefit" class="form-select">
+            {% for benefit in unique_benefits %}
+            <option value="{{ benefit }}">{{ benefit }}</option>
+            {% endfor %}
+        </select>
+        <div class="mb-3 mt-3 d-flex">
+            <span class="input-group-text">Company Size</span>
+            <input type=number class="form-control" name="size" min="0"/>
+        </div>
+        <div class="mb-3 mt-3 d-flex">
+            <span class="input-group-text">Day</span>
+            <input type=number class="form-control" name="Day" min="0" max="31"/>
+            <span class="input-group-text">Month</span>
+            <input type=number class="form-control" name="Month" min="0" max="12"/>
+            <span class="input-group-text">Year</span>
+            <input type=number class="form-control" name="Year" min="1200" max="2023"/>
+        </div>
+        <div class="mb-3 mt-3 d-flex">
+            <span class="input-group-text">Min Experience</span>
+            <input type=number class="form-control" name="min-xp" min="0"/>
+            <span class="input-group-text">Max Experience</span>
+            <input type=number class="form-control" name="max-xp" min="0"/>
+        </div>
+        <button type="submit" class="btn btn-primary mb-4">Предсказать</button>
+    </div>
+</form>
+{% endblock body %}

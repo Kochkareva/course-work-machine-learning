@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Многослойный персептронный классификатор
+{% endblock title %}
+
+
+{% block body %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("spinner").style.display = "block";
+    fetch('/mlp-classifier/get-mlp-classifier')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("spinner").style.display = "none";
+            const images = data.images;
+            document.getElementById("image1").src = images;
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            document.getElementById("spinner").style.display = "none";
+            // Ваш код для отображения сообщения об ошибке
+        });
+    });
+</script>
+<div class="container">
+    <h5 class="mt-5">Задача анализа, решаемая многослойным персептронным классификатором:</h5>
+    <p>Произвести классификацию среднего значения заработной платой по характеристикам вакансий.</p>
+    <p>
+        Основной строительный блок MLP — это нейрон, который является узлом в нейронной сети. Каждый нейрон принимает на вход набор признаков и вычисляет
+        взвешенную сумму этих признаков с помощью весов, а затем применяет нелинейную функцию активации к полученному значению.
+        Функция активации помогает добавить нелинейность в модель, что позволяет ей моделировать более сложные зависимости в данных.
+    </p>
+    <p>
+        MLP состоит из нескольких слоев нейронов, включая входной слой, скрытые слои и выходной слой. Входной слой принимает на вход значения признаков,
+        скрытые слои выполняют промежуточные вычисления, а выходной слой представляет собой финальные предсказания классов.
+    </p>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <div id="spinner" style="display: none;justify-content: center; align-items: center;" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div id="image-container">
+        <p>
+            Оценка качества модели многослойного перцептрона:
+        </p>
+        <img id="image1" src="" alt="">
+    </div>
+
+    <h5 class="mt-5">Вывод:</h5>
+    <p>
+        Согласно данным графикам, можно сделать вывод о том, что модель многослойного перцептрона справилась также, как и модель дерева решений до удаления наименее важных параметров, то есть на среднем уровне.
+    </p>
+</div>
+{% endblock body %}

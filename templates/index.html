@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock title %}
+
+{% block body %}
+<style>
+    .table-auto {
+        table-layout: auto;
+        width: 100%;
+    }
+</style>
+<div class="container">
+    <h1 class="mt-5">Начало работы</h1>
+    <p>
+        Для анализа и прогнозирования характеристик и трендов на рынке труда был взять набор данных
+        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"  href="https://www.kaggle.com/datasets/ravindrasinghrana/job-description-dataset" style="--bs-link-opacity: .5"> Job Dataset </a>
+         с сайта
+        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="https://www.kaggle.com/" style="--bs-link-opacity: .5">kaggle.com</a>
+    </p>
+
+    <ul class="list-unstyled">
+      <li>Набор данных состоит из следующих столбцов:
+        <ul>
+          <li>Job Id - Уникальный идентификатор для каждой публикации вакансии.</li>
+          <li>Experience - Требуемый или предпочтительный многолетний опыт работы на данной должности.</li>
+          <li>Qualifications - Уровень образования, необходимый для работы.</li>
+          <li>Salary Range - Диапазон окладов или компенсаций, предлагаемых за должность</li>
+          <li>Location - Город или область, где находится работа.</li>
+          <li>Country - Страна, в которой находится работа.</li>
+          <li>Latitude -  Координата широты местоположения работы.</li>
+          <li>Longitude - Координата долготы местоположения работы.</li>
+          <li>Work Type - Тип занятости (например, полный рабочий день, неполный рабочий день, контракт).</li>
+          <li>Company Size - Приблизительный размер или масштаб компании, принимающей на работу.</li>
+          <li>Job Posting Date - Дата, когда публикация о вакансии была опубликована.</li>
+          <li>Preference - Особые предпочтения или требования к кандидатам (например, только мужчины или только женщины, или и то, и другое).</li>
+          <li>Contact Person - Имя контактного лица или рекрутера для работы.</li>
+          <li>Contact - Контактная информация для запросов о работе.</li>
+          <li>Job Title - Название должности.</li>
+          <li>Role - Роль или категория работы (например, разработчик программного обеспечения, менеджер по маркетингу).</li>
+          <li>Job Portal - Платформа или веб-сайт, на котором была размещена вакансия.</li>
+          <li>Job Description - Подробное описание должностных обязанностей и требований.</li>
+          <li>Benefits - Информация о льготах, предоставляемых в связи с работой (например, медицинская страховка, пенсионные планы).</li>
+          <li>Skills - Навыки или квалификация, необходимые для работы.</li>
+          <li>Responsibilities - Конкретные обязанности, связанные с работой.</li>
+          <li>Company Name - Название компании, принимающей на работу.</li>
+          <li>Company Profile - Краткий обзор истории компании и миссии.</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+        <em>Оригнинальный набор данных:</em>
+    </p>
+    <div style="overflow: scroll; height: 300px;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    {% for column in table_data_orig[0].keys() %}
+                    <th style="width: auto;">{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table_data_orig %}
+                <tr>
+                    {% for value in row.values() %}
+                    <td style="width: auto;">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p>Для того, чтобы можно было использовать набор данных, необходимо оцифровать текстовые значения, а также удалить те значения, которые не несут смысла для анализа.</p>
+    <p>
+        <em>Обновленный набор данных:</em>
+    </p>
+    <div style="overflow-x: auto; height: auto;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    {% for column in table_data[0].keys() %}
+                    <th style="width: 100%;">{{ column|replace('\n', '') }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table_data %}
+                <tr>
+                    {% for value in row.values() %}
+                    <td style="width: auto;">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <ul class="list-unstyled">
+      <li>Была выполнена следующая предобработка данных:
+        <ul>
+            <li>Были удалены незначищие столбцы: <em>"Job Id", "latitude", "longitude", "Contact Person", "Contact", "Job Description", "Responsibilities"</em>.</li>
+            <li>Кодирование категориальных признаков, преобразованние их в уникальные числовые значения для каждого столбца, чтобы модель машинного обучения могла работать с ними, для столбцов: <em>'location', 'Country', 'Work Type','Preference', 'Job Title', 'Role', 'Job Portal', 'skills', 'Company',  'Sector'</em>.</li>
+            <li>Данные столбцов <em>'Experience' и 'Salary Range'</em> были разделены соответственно на дополнительные столбцы: <em>'Min Experience', 'Max Experience', 'Min Salary', 'Max Salary'</em>. А сами столбцы <em>'Experience' и 'Salary Range'</em> удалены.</li>
+          <li>Данные столбцы <em>'Job Posting Date'</em> были разбиты на дополнительные столбцы: <em>'year', 'month', 'day'</em>. А сам столбец <em>'Job Posting Date'</em> был удален.</li>
+          <li>Данные ячеек столбца <em>'Company Profile'</em> имеют структуру вида <em>{"Sector":"Diversified","Industry":"Diversified Financials","City":"Sunny Isles Beach","State":"Florida","Zip":"33160","Website":"www.ielp.com","Ticker":"IEP","CEO":"David Willetts"}</em>, поэтому были разделены на дополнительные столбцы и закодированы для избежания категориальных признаков: <em>'Sector', 'Industry', 'City', 'State', 'Ticker'</em>, а данные о <em>'Zip', 'Website', 'CEO'</em> были удалены, как наименее важные. Также был удален сам столбец <em>'Company Profile'</em>.</li>
+        </ul>
+      </li>
+    </ul>
+</div>
+{% endblock body %}

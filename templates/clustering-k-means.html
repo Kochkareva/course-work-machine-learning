@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+KMeans
+{% endblock title %}
+
+{% block body %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("spinner").style.display = "block";
+    fetch('/k-means/get-k-means')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("spinner").style.display = "none";
+            const images = data.images;
+            document.getElementById("image1").src = images[0];
+            document.getElementById("image2").src = images[1];
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            document.getElementById("spinner").style.display = "none";
+            // Ваш код для отображения сообщения об ошибке
+        });
+    });
+</script>
+
+<div class="container">
+    <h5 class="mt-5">Задача анализа, решаемая алгоритмом KMeans</h5>
+    <p>Выделение стран с похожими характеристиками вакансий с помощью моделей кластеризации.</p>
+    <p>
+        Алгоритм K-means работает следующим образом:
+    </p>
+    <p>1.	Задается количество кластеров K, которые нужно найти</p>
+    <p>2.	Инициализируются случайным образом K центров кластеров (обычно случайно выбираются K точек из набора данных).</p>
+    <p>3.	Каждая точка данных присваивается к ближайшему центру кластера на основе расстояния (обычно используется евклидово расстояние).</p>
+    <p>4.	После присвоения всех точек кластерам, центры кластеров пересчитываются путем нахождения среднего значения всех точек, принадлежащих кластеру.</p>
+    <p>5.	Шаги 3 и 4 повторяются до тех пор, пока центры кластеров не перестанут значительно изменяться или пока не будет достигнуто максимальное количество итераций.</p>
+     <div style="display: flex; justify-content: center; align-items: center;">
+        <div id="spinner" style="display: none;justify-content: center; align-items: center;" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div id="image-container">
+        <p>
+            Метод локтя для оценки количества кластеров:
+        </p>
+        <img id="image1" src="" alt="">
+        <p>
+            Оценка качества модели k-means:
+        </p>
+        <img id="image2" src="" alt="">
+    </div>
+    <h5 class="mt-5">Вывод:</h5>
+    <p>
+        Коэффициент силуэта имеет низкое значение, что говорит о том, что объекты в кластерах имеют относительно хорошую компактность и различимость,
+        но существует некоторое перекрытие с другими кластерами.
+        В целом, это может указывать на некоторую степень нечеткости или смешения между кластерами.
+    </p>
+</div>
+{% endblock body %}

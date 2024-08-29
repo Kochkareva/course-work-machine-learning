@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Линейная регрессия
+{% endblock title %}
+
+{% block body %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("spinner").style.display = "block";
+    fetch('/linear-regression/get-linear-regression')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("spinner").style.display = "none";
+            const images = data.images;
+            document.getElementById("image1").src = images;
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            document.getElementById("spinner").style.display = "none";
+            // Ваш код для отображения сообщения об ошибке
+        });
+    });
+</script>
+<div class="container">
+    <h5 class="mt-5">Задача анализа, решаемая регрессией линейная регрессией:</h5>
+    <p>Предсказать среднее значение заработной платы по характеристикам вакансии моделями регрессии.</p>
+
+    <p>
+        Линейная регрессия — это один из наиболее простых и широко используемых методов в машинном обучении, который позволяет установить
+        линейную зависимость между входными признаками и выходными значениями. Он используется для прогнозирования непрерывной целевой переменной на
+        основе линейной комбинации входных признаков.
+    </p>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <div id="spinner" style="display: none;justify-content: center; align-items: center;" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div id="image-container">
+        <p>
+            Оценка качества модели линейной регрессии:
+        </p>
+        <img id="image1" src="" alt="">
+    </div>
+    <h5 class="mt-5">Вывод:</h5>
+    <p>
+        На данном графике видно, что модель совершенно не справилась с предсказанием, а значение коэффициент детерминации имеет отрицательное значение. Исходя из этого, можно сделать вывод о том, что данные не имеют линейной связи и их нельзя использовать для задач регрессии.
+    </p>
+</div>
+{% endblock body %}

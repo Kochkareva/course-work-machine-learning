@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Многослойный персептронный регрессор
+{% endblock title %}
+
+{% block body %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("spinner").style.display = "block";
+    fetch('/mlp_regressor/get-mlp-regressor')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("spinner").style.display = "none";
+            const images = data.images;
+            document.getElementById("image1").src = images;
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            document.getElementById("spinner").style.display = "none";
+            // Ваш код для отображения сообщения об ошибке
+        });
+    });
+</script>
+<div class="container">
+    <h5 class="mt-5">Задача анализа, решаемая многослойным персептронным регрессором:</h5>
+    <p>Предсказать среднее значение заработной платы по характеристикам вакансии моделями регрессии.</p>
+    <p>
+        Модель MLP состоит из нескольких слоев нейронов, включая входной слой, скрытые слои и выходной слой.
+        Каждый нейрон в слоях связан с нейронами в следующем слое, и информация передается от входного слоя через скрытые слои до выходного слоя.
+    </p>
+    <p>
+        Каждый нейрон в MLP имеет веса, которые определяют важность входных признаков. Входные данные умножаются на веса и проходят через
+        активационную функцию, которая определяет выходное значение нейрона.
+        В MLP часто используются активационные функции, такие как сигмоида, гиперболический тангенс или ReLU.
+    </p>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <div id="spinner" style="display: none;justify-content: center; align-items: center;" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div id="image-container">
+        <p>
+            Оценка качества модели многослойного перцептрона:
+        </p>
+        <img id="image1" src="" alt="">
+    </div>
+    <h5 class="mt-5">Вывод:</h5>
+    <p>
+        На графике видно, что модель не была успешной в своих предсказаниях, и значение коэффициента детерминации отрицательно.
+        Из этого можно сделать вывод, что данные не обладают линейной зависимостью и не могут быть использованы для решения задачи регрессии.
+    </p>
+</div>
+{% endblock body %}
